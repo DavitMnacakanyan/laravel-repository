@@ -1,0 +1,23 @@
+{
+    "name": "jetbox/laravel-repository",
+    "description": "Laravel Repository Package",
+    "keywords": [
+        "laravel",
+        "repository"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Davit Mnacakanyan",
+            "email": "davitmnacakanyan055@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "JetBox\\Repositories\\": "src"
+        }
+    }
+}
