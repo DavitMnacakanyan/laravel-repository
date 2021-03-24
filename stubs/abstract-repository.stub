@@ -1,0 +1,11 @@
+<?php
+
+namespace App\Repositories;
+
+use JetBox\Repositories\Eloquent\AbstractRepository as BaseRepository;
+
+
+abstract class AbstractRepository extends BaseRepository
+{
+
+}

@@ -20,6 +20,7 @@ Laravel Repository Package
 
 - <a href="#installation">Installation</a>
     - <a href="#composer">Composer</a>
+    - <a href="#command">Command</a>
 - <a href="#methods">Methods</a>
 - <a href="#usage">Usage</a>
 	- <a href="#create-a-repository">Create a Repository</a>
@@ -33,6 +34,14 @@ Execute the following command to get the latest version of the package:
 
 ```terminal
 composer require jetbox/laravel-repository
+```
+
+### Command
+
+Create a new Eloquent model repository class
+
+```terminal
+php artisan make:repository UserRepository
 ```
 
 ## Methods
@@ -61,19 +70,16 @@ composer require jetbox/laravel-repository
 namespace App\Repositories;
 
 use App\Models\User;
-use JetBox\Repositories\Eloquent\AbstractRepository;
 
-class UserRepository extends AbstractRepository {
-
-    /**
-     * Specify Model class name
-     *
-     * @return string
-     */
-    protected function model()
-    {
-        return User::class;
-    }
+class UserRepository extends AbstractRepository
+{
+   /**
+    * @return mixed|string
+    */
+   protected function model()
+   {
+       return User::class;
+   }
 }
 ```
 

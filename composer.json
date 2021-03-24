@@ -19,5 +19,12 @@
         "psr-4": {
             "JetBox\\Repositories\\": "src"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "JetBox\\Repositories\\RepositoryServiceProvider"
+            ]
+        }
     }
 }
