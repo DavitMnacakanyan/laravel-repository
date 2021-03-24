@@ -73,10 +73,10 @@ class MakeRepositoryCommand extends GeneratorCommand
     protected function buildClass($name)
     {
         $stub = parent::buildClass($name);
-
+//dd($this->qualifyClass($name));
         if (!file_exists(app_path('Repositories/AbstractRepository.php'))) {
             $this->call('make:abstract-repository', [
-               'name' => 'AbstractRepository'
+                'name' => 'AbstractRepository'
             ]);
         }
 
@@ -96,7 +96,8 @@ class MakeRepositoryCommand extends GeneratorCommand
         $checkCommandRepository = substr($nameInput, strpos($nameInput, 'Repository'));
 
         if ($checkCommandRepository === 'Repository') {
-            $modelNamespace = $this->qualifyModel($nameInput);
+//            $modelNamespace = $this->qualifyModel($nameInput);
+            $modelNamespace = config('repository.app_model') . '\\' . $nameInput;
             $modelNamespace = substr($modelNamespace, 0, strpos($modelNamespace, 'Repository'));
             $nameInput = substr($nameInput, 0, strpos($nameInput, 'Repository'));
             $nameInput = Str::singular($nameInput);
