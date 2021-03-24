@@ -1,6 +1,6 @@
 <?php
 
-namespace JetBox\Repositories\Providers;
+namespace JetBox\Repositories;
 
 use JetBox\Repositories\Console\Commands\MakeAbstractRepositoryCommand;
 use JetBox\Repositories\Console\Commands\MakeRepositoryCommand;
