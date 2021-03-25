@@ -29,15 +29,20 @@ Laravel Repository Package
 ## Installation
 
 ### Composer
-
 Execute the following command to get the latest version of the package:
 
 ```terminal
 composer require jetbox/laravel-repository
 ```
 
-### Command
+### Config
+Publish Config
 
+```terminal
+php artisan vendor:publish --provider="JetBox\Repositories\RepositoryServiceProvider"
+```
+
+### Command
 Create a new Eloquent model repository class
 
 ```terminal
