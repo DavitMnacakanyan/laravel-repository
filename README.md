@@ -8,9 +8,9 @@ Laravel Repository Package
 [![License](https://poser.pugx.org/jetbox/laravel-repository/license)](//packagist.org/packages/jetbox/laravel-repository)
 
 
-[![Daily Downloads](https://poser.pugx.org/DavitMnacakanyan/laravel-repository/d/daily)](//packagist.org/packages/jetbox/laravel-repository)
-[![Monthly Downloads](https://poser.pugx.org/DavitMnacakanyan/laravel-repository/d/monthly)](//packagist.org/packages/jetbox/laravel-repository)
-[![Total Downloads](https://poser.pugx.org/DavitMnacakanyan/laravel-repository/downloads)](//packagist.org/packages/jetbox/laravel-repository)
+[![Daily Downloads](https://poser.pugx.org/jetbox/laravel-repository/d/daily)](//packagist.org/packages/jetbox/laravel-repository)
+[![Monthly Downloads](https://poser.pugx.org/jetbox/laravel-repository/d/monthly)](//packagist.org/packages/jetbox/laravel-repository)
+[![Total Downloads](https://poser.pugx.org/jetbox/laravel-repository/downloads)](//packagist.org/packages/jetbox/laravel-repository)
 
 [![Issues](https://img.shields.io/github/issues/DavitMnacakanyan/laravel-repository)](https://github.com/DavitMnacakanyan/laravel-repository/issues)
 [![Stars](https://img.shields.io/github/stars/DavitMnacakanyan/laravel-repository)](https://github.com/DavitMnacakanyan/laravel-repository/stargazers)
