@@ -44,14 +44,15 @@ abstract class AbstractRepository implements RepositoryInterface
 
     /**
      * @param string[] $columns
-     * @param bool $take
-     * @param bool $pagination
-     * @param bool $where
-     * @return bool
+     * @param false $take
+     * @param false $pagination
+     * @param false $where
+     * @param string $orderBy
+     * @return mixed
      */
-    public function get($columns = ['*'], $take = false, $pagination = false, $where = false)
+    public function get($columns = ['*'], $take = false, $pagination = false, $where = false, $orderBy = 'created_at')
     {
-        $builder = $this->model->latest();
+        $builder = $this->model->latest($orderBy);
 
         if ($take) {
             $builder->take($take);
@@ -90,7 +91,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @param bool $perPage
+     * @param false $perPage
      * @param string[] $columns
      * @param string $orderBy
      * @return mixed
@@ -98,6 +99,18 @@ abstract class AbstractRepository implements RepositoryInterface
     public function paginate($perPage = false, $columns = ['*'], $orderBy = 'created_at')
     {
         return $this->model->latest($orderBy)->paginate($perPage, $columns);
+    }
+
+    /**
+     * @param $relation
+     * @param string[] $columns
+     * @param int $paginate
+     * @param string $orderBy
+     * @return mixed
+     */
+    public function withPaginate($relation, $columns = ['*'], $paginate = 15, $orderBy = 'created_at')
+    {
+        return $this->model->latest($orderBy)->with($relation)->paginate($paginate);
     }
 
     /**
@@ -129,6 +142,16 @@ abstract class AbstractRepository implements RepositoryInterface
      */
     public function find($id, $columns = ['*'])
     {
+        return $this->model->find($id, $columns);
+    }
+
+    /**
+     * @param $id
+     * @param string[] $columns
+     * @return mixed
+     */
+    public function findOrFail($id, $columns = ['*'])
+    {
         return $this->model->findOrFail($id, $columns);
     }
 
@@ -137,6 +160,15 @@ abstract class AbstractRepository implements RepositoryInterface
      * @return mixed
      */
     public function first($columns = ['*'])
+    {
+        return $this->model->first($columns);
+    }
+
+    /**
+     * @param string[] $columns
+     * @return mixed
+     */
+    public function firstOrFail($columns = ['*'])
     {
         return $this->model->firstOrFail($columns);
     }
@@ -148,6 +180,17 @@ abstract class AbstractRepository implements RepositoryInterface
      * @return mixed
      */
     public function where($field, $value, $columns = ['*'])
+    {
+        return $this->model->where($field, $value)->first($columns);
+    }
+
+    /**
+     * @param $field
+     * @param $value
+     * @param string[] $columns
+     * @return mixed
+     */
+    public function whereOrFail($field, $value, $columns = ['*'])
     {
         return $this->model->where($field, $value)->firstOrFail($columns);
     }
@@ -198,4 +241,41 @@ abstract class AbstractRepository implements RepositoryInterface
         return $this->model->latest($orderBy)->withCount($relation)->get($columns);
     }
 
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
+    public function create(array $attributes)
+    {
+        return $this->model->create($attributes);
+    }
+
+    /**
+     * @param array $attributes
+     * @param int $id
+     * @return bool
+     */
+    public function update(array $attributes, int $id): bool
+    {
+        return $this->find($id)->update($attributes);
+    }
+
+    /**
+     * @param array $attributes
+     * @param int $id
+     * @return bool
+     */
+    public function save(array $attributes, int $id): bool
+    {
+        return $this->find($id)->save($attributes);
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function delete(int $id)
+    {
+        return $this->find($id)->delete();
+    }
 }
