@@ -102,15 +102,16 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @param $relation
+     * @param $relations
+     * @param null $callback
      * @param string[] $columns
      * @param int $paginate
      * @param string $orderBy
      * @return mixed
      */
-    public function withPaginate($relation, $columns = ['*'], $paginate = 15, $orderBy = 'created_at')
+    public function withPaginate($relations, $callback = null, $columns = ['*'], $paginate = 15, $orderBy = 'created_at')
     {
-        return $this->model->latest($orderBy)->with($relation)->paginate($paginate);
+        return $this->model->latest($orderBy)->with($relations, $callback)->paginate($paginate);
     }
 
     /**
@@ -146,6 +147,16 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
+     * @param $ids
+     * @param string[] $columns
+     * @return mixed
+     */
+    public function findMany($ids, $columns = ['*'])
+    {
+        return $this->model->findMany($ids, $columns);
+    }
+
+    /**
      * @param $id
      * @param string[] $columns
      * @return mixed
@@ -174,71 +185,100 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @param $field
-     * @param $value
+     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param null $operator
+     * @param null $value
      * @param string[] $columns
      * @return mixed
      */
-    public function where($field, $value, $columns = ['*'])
+    public function where($column, $operator = null, $value = null, $columns = ['*'])
     {
-        return $this->model->where($field, $value)->first($columns);
+        return $this->model->where($column, $operator, $value)->first($columns);
     }
 
     /**
-     * @param $field
-     * @param $value
+     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param null $operator
+     * @param null $value
      * @param string[] $columns
      * @return mixed
      */
-    public function whereOrFail($field, $value, $columns = ['*'])
+    public function whereOrFail($column, $operator = null, $value = null, $columns = ['*'])
     {
-        return $this->model->where($field, $value)->firstOrFail($columns);
+        return $this->model->where($column, $operator, $value)->firstOrFail($columns);
     }
 
     /**
-     * @param $field
-     * @param $value
+     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param null $operator
+     * @param null $value
      * @param string[] $columns
      * @param string $orderBy
      * @return mixed
      */
-    public function whereAll($field, $value, $columns = ['*'], $orderBy = 'created_at')
+    public function whereAll($column, $operator = null, $value = null, $columns = ['*'], $orderBy = 'created_at')
     {
-        return $this->model->latest($orderBy)->where($field, $value)->get($columns);
+        return $this->model->latest($orderBy)->where($column, $operator, $value)->get($columns);
     }
 
     /**
-     * @param $field
+     * @param $column
+     * @param null $operator
+     * @param null $value
+     * @param $relations
+     * @param null $callback
+     * @param string[] $columns
+     * @param string $orderBy
+     * @return mixed
+     */
+    public function whereWithAll($column, $operator = null, $value = null, $relations, $callback = null, $columns = ['*'], $orderBy = 'created_at')
+    {
+        return $this->model->latest($orderBy)->where($column, $operator, $value)->with($relations, $callback)->get($columns);
+    }
+
+    /**
+     * @param  string|\Illuminate\Database\Query\Expression  $column
      * @param array $value
      * @param string[] $columns
      * @param string $orderBy
      * @return mixed
      */
-    public function whereBetween($field, $value = [], $columns = ['*'], $orderBy = 'created_at')
+    public function whereBetween($column, $value = [], $columns = ['*'], $orderBy = 'created_at')
     {
-        return $this->model->latest($orderBy)->whereBetween($field, $value)->get($columns);
+        return $this->model->latest($orderBy)->whereBetween($column, $value)->get($columns);
     }
 
     /**
-     * @param $relation
+     * @param $relations
+     * @param null $callback
      * @param string[] $columns
      * @param string $orderBy
      * @return mixed
      */
-    public function with($relation, $columns = ['*'], $orderBy = 'created_at')
+    public function with($relations, $callback = null, $columns = ['*'], $orderBy = 'created_at')
     {
-        return $this->model->latest($orderBy)->with($relation)->get($columns);
+        return $this->model->latest($orderBy)->with($relations, $callback)->get($columns);
     }
 
     /**
-     * @param $relation
+     * @param $relations
      * @param string[] $columns
      * @param string $orderBy
      * @return mixed
      */
-    public function withCount($relation, $columns = ['*'], $orderBy = 'created_at')
+    public function withCount($relations, $columns = ['*'], $orderBy = 'created_at')
     {
-        return $this->model->latest($orderBy)->withCount($relation)->get($columns);
+        return $this->model->latest($orderBy)->withCount($relations)->get($columns);
+    }
+
+    /**
+     * @param $column
+     * @param null $key
+     * @return mixed|void
+     */
+    public function pluck($column, $key = null)
+    {
+        return $this->model->pluck($column, $key);
     }
 
     /**

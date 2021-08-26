@@ -61,11 +61,11 @@ php artisan make:repository UserRepository
 - limit($take, $columns = ['*'], $orderBy = 'created_at');
 - find($id, $columns = ['*']);
 - first($columns = ['*']);
-- where($field, $value, $columns = ['*']);
-- whereAll($field, $value, $columns = ['*'], $orderBy = 'created_at');
-- whereBetween($field, $value = [], $columns = ['*'], $orderBy = 'created_at');
-- with($relation, $columns = ['*'], $orderBy = 'created_at');
-- withCount($relation, $columns = ['*'], $orderBy = 'created_at');
+- where($column, $operator = null, $value = null, $columns = ['*']);
+- whereAll($column, $operator = null, $value = null, $columns = ['*'], $orderBy = 'created_at');
+- whereBetween($column, $value = [], $columns = ['*'], $orderBy = 'created_at');
+- with($relations, $callback = null, $columns = ['*'], $orderBy = 'created_at');
+- withCount($relations, $columns = ['*'], $orderBy = 'created_at');
 
 ## Usage
 
