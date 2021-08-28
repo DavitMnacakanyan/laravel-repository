@@ -3,10 +3,9 @@
 Laravel Repository Package
 
 [![Latest Stable Version](https://poser.pugx.org/jetbox/laravel-repository/v)](//packagist.org/packages/jetbox/laravel-repository)
-[![Total Downloads](https://poser.pugx.org/jetbox/laravel-repository/downloads)](//packagist.org/packages/jetbox/laravel-repository) 
+[![Total Downloads](https://poser.pugx.org/jetbox/laravel-repository/downloads)](//packagist.org/packages/jetbox/laravel-repository)
 [![Latest Unstable Version](https://poser.pugx.org/jetbox/laravel-repository/v/unstable)](//packagist.org/packages/jetbox/laravel-repository)
 [![License](https://poser.pugx.org/jetbox/laravel-repository/license)](//packagist.org/packages/jetbox/laravel-repository)
-
 
 [![Daily Downloads](https://poser.pugx.org/jetbox/laravel-repository/d/daily)](//packagist.org/packages/jetbox/laravel-repository)
 [![Monthly Downloads](https://poser.pugx.org/jetbox/laravel-repository/d/monthly)](//packagist.org/packages/jetbox/laravel-repository)
@@ -23,12 +22,13 @@ Laravel Repository Package
     - <a href="#command">Command</a>
 - <a href="#methods">Methods</a>
 - <a href="#usage">Usage</a>
-	- <a href="#create-a-repository">Create a Repository</a>
-	- <a href="#use-methods">Use methods</a>
+    - <a href="#create-a-repository">Create a Repository</a>
+    - <a href="#use-methods">Use methods</a>
 
 ## Installation
 
 ### Composer
+
 Execute the following command to get the latest version of the package:
 
 ```terminal
@@ -36,6 +36,7 @@ composer require jetbox/laravel-repository
 ```
 
 ### Config
+
 Publish Config
 
 ```terminal
@@ -43,6 +44,7 @@ php artisan vendor:publish --provider="JetBox\Repositories\RepositoryServiceProv
 ```
 
 ### Command
+
 Create a new Eloquent model repository class
 
 ```terminal
@@ -66,6 +68,7 @@ php artisan make:repository UserRepository
 - whereBetween($column, $value = [], $columns = ['*'], $orderBy = 'created_at');
 - with($relations, $columns = ['*'], $orderBy = 'created_at');
 - withCount($relations, $columns = ['*'], $orderBy = 'created_at');
+- querySortable($column, $direction)
 
 ## Usage
 
@@ -78,6 +81,18 @@ use App\Models\User;
 
 class UserRepository extends AbstractRepository
 {
+   /**
+   * Global OrderBy Direction
+   * @var string
+   */
+   protected $orderByDirection = 'desc';
+
+   /**
+   * Global OrderBy Column
+   * @var string
+   */
+   protected $orderByColumn = 'created_at';
+
    /**
     * @return mixed|string
     */

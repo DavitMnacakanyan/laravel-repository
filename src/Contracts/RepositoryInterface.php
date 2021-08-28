@@ -12,58 +12,51 @@ interface RepositoryInterface
      * @param false $take
      * @param false $pagination
      * @param false $where
-     * @param string $orderBy
      * @return mixed
      */
-    public function get($columns = ['*'], $take = false, $pagination = false, $where = false, $orderBy = 'created_at');
+    public function get($columns = ['*'], $take = false, $pagination = false, $where = false);
 
     /**
      * @param string[] $columns
-     * @param string $orderBy
      * @return mixed
      */
-    public function all($columns = ['*'], $orderBy = 'created_at');
+    public function all($columns = ['*']);
 
     /**
      * @param $take
      * @param string[] $columns
-     * @param string $orderBy
      * @return mixed
      */
-    public function take($take, $columns = ['*'], $orderBy = 'created_at');
+    public function take($take, $columns = ['*']);
 
     /**
      * @param false $perPage
      * @param string[] $columns
-     * @param string $orderBy
      * @return mixed
      */
-    public function paginate($perPage = false, $columns = ['*'], $orderBy = 'created_at');
+    public function paginate($perPage = false, $columns = ['*']);
 
     /**
      * @param $relations
      * @param string[] $columns
      * @param int $paginate
-     * @param string $orderBy
      * @return mixed
      */
-    public function withPaginate($relations, $columns = ['*'], $paginate = 15, $orderBy = 'created_at');
+    public function withPaginate($relations, $columns = ['*'], $paginate = 15);
 
     /**
      * @param false $perPage
      * @param string[] $columns
-     * @param string $orderBy
      * @return mixed
      */
-    public function simplePaginate($perPage = false, $columns = ['*'], $orderBy = 'created_at');
+    public function simplePaginate($perPage = false, $columns = ['*']);
 
     /**
      * @param $take
      * @param string[] $columns
-     * @param string $orderBy
      * @return mixed
      */
-    public function limit($take, $columns = ['*'], $orderBy = 'created_at');
+    public function limit($take, $columns = ['*']);
 
     /**
      * @param $id
@@ -121,10 +114,9 @@ interface RepositoryInterface
      * @param null $operator
      * @param null $value
      * @param string[] $columns
-     * @param string $orderBy
      * @return mixed
      */
-    public function whereAll($column, $operator = null, $value = null, $columns = ['*'], $orderBy = 'created_at');
+    public function whereAll($column, $operator = null, $value = null, $columns = ['*']);
 
     /**
      * @param $column
@@ -132,35 +124,31 @@ interface RepositoryInterface
      * @param null $value
      * @param $relations
      * @param string[] $columns
-     * @param string $orderBy
      * @return mixed
      */
-    public function whereWithAll($column, $operator = null, $value = null, $relations, $columns = ['*'], $orderBy = 'created_at');
+    public function whereWithAll($column, $operator = null, $value = null, $relations, $columns = ['*']);
 
     /**
      * @param $column
      * @param array $value
      * @param string[] $columns
-     * @param string $orderBy
      * @return mixed
      */
-    public function whereBetween($column, $value = [], $columns = ['*'], $orderBy = 'created_at');
+    public function whereBetween($column, $value = [], $columns = ['*']);
 
     /**
      * @param $relations
      * @param string[] $columns
-     * @param string $orderBy
      * @return mixed
      */
-    public function with($relations, $columns = ['*'], $orderBy = 'created_at');
+    public function with($relations, $columns = ['*']);
 
     /**
      * @param $relations
      * @param string[] $columns
-     * @param string $orderBy
      * @return mixed
      */
-    public function withCount($relations, $columns = ['*'], $orderBy = 'created_at');
+    public function withCount($relations, $columns = ['*']);
 
     /**
      * @param $column
