@@ -6,11 +6,11 @@ use DummyModelNamespace;
 
 class DummyClass extends AbstractRepository
 {
-   /**
-    * @return mixed|string
-    */
-   protected function model()
-   {
-       return DummyModelClass::class;
-   }
+    /**
+     * @return mixed|string
+     */
+    protected function model()
+    {
+        return DummyModelClass::class;
+    }
 }

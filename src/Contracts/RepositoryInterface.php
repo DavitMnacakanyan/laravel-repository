@@ -180,6 +180,12 @@ interface RepositoryInterface
 
     /**
      * @param array $attributes
+     * @return mixed
+     */
+    public function forceCreate(array $attributes);
+
+    /**
+     * @param array $attributes
      * @param int $id
      * @return mixed
      */
@@ -190,7 +196,21 @@ interface RepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function save(array $attributes, int $id): bool;
+    public function updateTap(array $attributes, int $id);
+
+    /**
+     * @param array $attributes
+     * @param int $id
+     * @return bool
+     */
+    public function updateForce(array $attributes, int $id): bool;
+
+    /**
+     * @param array $attributes
+     * @param int $id
+     * @return mixed
+     */
+    public function updateForceTap(array $attributes, int $id);
 
     /**
      * @param int $id

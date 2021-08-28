@@ -5,10 +5,16 @@ namespace JetBox\Repositories\Eloquent;
 
 
 use JetBox\Repositories\Contracts\RepositoryInterface;
+use JetBox\Repositories\Traits\BaseRepositoryTrait as BaseRepository;
 
 
 abstract class AbstractRepository implements RepositoryInterface
 {
+    /**
+     * Trait
+     */
+    use BaseRepository;
+
     /**
      * @var bool
      */
@@ -292,12 +298,11 @@ abstract class AbstractRepository implements RepositoryInterface
 
     /**
      * @param array $attributes
-     * @param int $id
-     * @return bool
+     * @return mixed
      */
-    public function update(array $attributes, int $id): bool
+    public function forceCreate(array $attributes)
     {
-        return $this->find($id)->update($attributes);
+        return $this->model->forceCreate($attributes);
     }
 
     /**
@@ -305,9 +310,39 @@ abstract class AbstractRepository implements RepositoryInterface
      * @param int $id
      * @return bool
      */
-    public function save(array $attributes, int $id): bool
+    public function update(array $attributes, int $id): bool
     {
-        return $this->find($id)->save($attributes);
+        return $this->baseUpdate($attributes, $id)->update();
+    }
+
+    /**
+     * @param array $attributes
+     * @param int $id
+     * @return mixed
+     */
+    public function updateTap(array $attributes, int $id)
+    {
+        return tap($this->baseUpdate($attributes, $id))->update();
+    }
+
+    /**
+     * @param array $attributes
+     * @param int $id
+     * @return bool
+     */
+    public function updateForce(array $attributes, int $id): bool
+    {
+        return $this->baseUpdateForce($attributes, $id)->update();
+    }
+
+    /**
+     * @param array $attributes
+     * @param int $id
+     * @return mixed
+     */
+    public function updateForceTap(array $attributes, int $id)
+    {
+        return tap($this->baseUpdateForce($attributes, $id))->update();
     }
 
     /**
