@@ -63,8 +63,8 @@ php artisan make:repository UserRepository
 - limit($take, $columns = ['*'], $orderBy = 'created_at');
 - find($id, $columns = ['*']);
 - first($columns = ['*']);
-- where($column, $operator = null, $value = null, $columns = ['*']);
-- whereAll($column, $operator = null, $value = null, $columns = ['*'], $orderBy = 'created_at');
+- where($column, $value = null, $columns = ['*']);
+- whereAll($column, $value = null, $columns = ['*'], $orderBy = 'created_at');
 - whereBetween($column, $value = [], $columns = ['*'], $orderBy = 'created_at');
 - with($relations, $columns = ['*'], $orderBy = 'created_at');
 - withCount($relations, $columns = ['*'], $orderBy = 'created_at');

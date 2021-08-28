@@ -93,40 +93,36 @@ interface RepositoryInterface
 
     /**
      * @param $column
-     * @param null $operator
      * @param null $value
      * @param string[] $columns
      * @return mixed
      */
-    public function where($column, $operator = null, $value = null, $columns = ['*']);
+    public function where($column, $value = null, $columns = ['*']);
 
     /**
      * @param $column
-     * @param null $operator
      * @param null $value
      * @param string[] $columns
      * @return mixed
      */
-    public function whereOrFail($column, $operator = null, $value = null, $columns = ['*']);
+    public function whereOrFail($column, $value = null, $columns = ['*']);
 
     /**
      * @param $column
-     * @param null $operator
      * @param null $value
      * @param string[] $columns
      * @return mixed
      */
-    public function whereAll($column, $operator = null, $value = null, $columns = ['*']);
+    public function whereAll($column, $value = null, $columns = ['*']);
 
     /**
      * @param $column
-     * @param null $operator
      * @param null $value
      * @param $relations
      * @param string[] $columns
      * @return mixed
      */
-    public function whereWithAll($column, $operator = null, $value = null, $relations, $columns = ['*']);
+    public function whereWithAll($column, $value = null, $relations, $columns = ['*']);
 
     /**
      * @param $column

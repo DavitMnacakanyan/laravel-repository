@@ -202,62 +202,58 @@ abstract class AbstractRepository implements RepositoryInterface
 
     /**
      * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
-     * @param null $operator
      * @param null $value
      * @param string[] $columns
      * @return mixed
      */
-    public function where($column, $operator = null, $value = null, $columns = ['*'])
+    public function where($column, $value = null, $columns = ['*'])
     {
         return $this
             ->model
-            ->where($column, $operator, $value)
+            ->where($column, $value)
             ->first($columns);
     }
 
     /**
      * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
-     * @param null $operator
      * @param null $value
      * @param string[] $columns
      * @return mixed
      */
-    public function whereOrFail($column, $operator = null, $value = null, $columns = ['*'])
+    public function whereOrFail($column, $value = null, $columns = ['*'])
     {
         return $this
             ->model
-            ->where($column, $operator, $value)
+            ->where($column, $value)
             ->firstOrFail($columns);
     }
 
     /**
      * @param \Closure|string|array|\Illuminate\Database\Query\Expression $column
-     * @param null $operator
      * @param null $value
      * @param string[] $columns
      * @return mixed
      */
-    public function whereAll($column, $operator = null, $value = null, $columns = ['*'])
+    public function whereAll($column, $value = null, $columns = ['*'])
     {
         return $this
             ->orderBy()
-            ->where($column, $operator, $value)
+            ->where($column, $value)
             ->get($columns);
     }
 
     /**
      * @param $column
-     * @param null $operator
      * @param null $value
      * @param $relations
      * @param string[] $columns
      * @return mixed
      */
-    public function whereWithAll($column, $operator = null, $value = null, $relations, $columns = ['*'])
+    public function whereWithAll($column, $value = null, $relations, $columns = ['*'])
     {
         return $this
             ->orderBy()
-            ->where($column, $operator, $value)
+            ->where($column, $value)
             ->with($relations)
             ->get($columns);
     }
