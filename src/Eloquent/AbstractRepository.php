@@ -109,15 +109,14 @@ abstract class AbstractRepository implements RepositoryInterface
 
     /**
      * @param $relations
-     * @param null $callback
      * @param string[] $columns
      * @param int $paginate
      * @param string $orderBy
      * @return mixed
      */
-    public function withPaginate($relations, $callback = null, $columns = ['*'], $paginate = 15, $orderBy = 'created_at')
+    public function withPaginate($relations, $columns = ['*'], $paginate = 15, $orderBy = 'created_at')
     {
-        return $this->model->latest($orderBy)->with($relations, $callback)->paginate($paginate);
+        return $this->model->latest($orderBy)->with($relations)->paginate($paginate);
     }
 
     /**
@@ -232,14 +231,13 @@ abstract class AbstractRepository implements RepositoryInterface
      * @param null $operator
      * @param null $value
      * @param $relations
-     * @param null $callback
      * @param string[] $columns
      * @param string $orderBy
      * @return mixed
      */
-    public function whereWithAll($column, $operator = null, $value = null, $relations, $callback = null, $columns = ['*'], $orderBy = 'created_at')
+    public function whereWithAll($column, $operator = null, $value = null, $relations, $columns = ['*'], $orderBy = 'created_at')
     {
-        return $this->model->latest($orderBy)->where($column, $operator, $value)->with($relations, $callback)->get($columns);
+        return $this->model->latest($orderBy)->where($column, $operator, $value)->with($relations)->get($columns);
     }
 
     /**
@@ -256,14 +254,13 @@ abstract class AbstractRepository implements RepositoryInterface
 
     /**
      * @param $relations
-     * @param null $callback
      * @param string[] $columns
      * @param string $orderBy
      * @return mixed
      */
-    public function with($relations, $callback = null, $columns = ['*'], $orderBy = 'created_at')
+    public function with($relations, $columns = ['*'], $orderBy = 'created_at')
     {
-        return $this->model->latest($orderBy)->with($relations, $callback)->get($columns);
+        return $this->model->latest($orderBy)->with($relations)->get($columns);
     }
 
     /**
