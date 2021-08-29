@@ -3,7 +3,7 @@
 namespace JetBox\Repositories\Traits;
 
 
-use Exception;
+use JetBox\Repositories\Exceptions\RepositoryException;
 
 
 trait BaseRepositoryTrait
@@ -36,7 +36,7 @@ trait BaseRepositoryTrait
     /**
      * @return mixed
      */
-    public function baseOrderBy()
+    private function baseOrderBy()
     {
         if ($this->orderByDirection === 'desc') {
             return $this->model->latest($this->orderByColumn);
@@ -46,11 +46,6 @@ trait BaseRepositoryTrait
             return $this->model->oldest($this->orderByColumn);
         }
 
-        throw_if(
-            true,
-            new Exception(
-                "$this->orderByDirection The Given Value Is Incorrect - The Value Should Be `desc` or `asc` or `null`"
-            )
-        );
+        throw RepositoryException::orderByDirection($this);
     }
 }

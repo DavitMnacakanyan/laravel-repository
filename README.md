@@ -68,7 +68,7 @@ php artisan make:repository UserRepository
 - whereBetween($column, $value = [], $columns = ['*'], $orderBy = 'created_at');
 - with($relations, $columns = ['*'], $orderBy = 'created_at');
 - withCount($relations, $columns = ['*'], $orderBy = 'created_at');
-- querySortable($column, $direction)
+- querySortable(string $orderByColumn, string $orderByDirection)
 
 ## Usage
 
@@ -82,16 +82,16 @@ use App\Models\User;
 class UserRepository extends AbstractRepository
 {
    /**
-   * Global OrderBy Direction
-   * @var string
-   */
-   protected $orderByDirection = 'desc';
+    * Global OrderBy Column
+    * @var string
+    */
+   public $orderByColumn = 'created_at';
 
    /**
-   * Global OrderBy Column
-   * @var string
-   */
-   protected $orderByColumn = 'created_at';
+    * Global OrderBy Direction
+    * @var string
+    */
+   public $orderByDirection = 'desc';
 
    /**
     * @return mixed|string

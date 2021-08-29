@@ -14,7 +14,7 @@ abstract class AbstractRepository implements RepositoryInterface
      * Trait
      */
     use BaseRepository {
-        baseOrderBy as orderBy;
+        baseOrderBy as private orderBy;
     }
 
     /**

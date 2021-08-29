@@ -5,24 +5,24 @@ namespace JetBox\Repositories\Traits;
 trait SortableTrait
 {
     /**
-     * Global OrderBy Direction
-     * @var string
-     */
-    protected $orderByDirection = 'desc';
-
-    /**
      * Global OrderBy Column
      * @var string
      */
-    protected $orderByColumn = 'created_at';
+    public $orderByColumn = 'created_at';
 
     /**
-     * @param string $column
-     * @param string $direction
+     * Global OrderBy Direction
+     * @var string
      */
-    public function querySortable(string $column, string $direction)
+    public $orderByDirection = 'desc';
+
+    /**
+     * @param string $orderByColumn
+     * @param string $orderByDirection
+     */
+    public function querySortable(string $orderByColumn, string $orderByDirection)
     {
-        $this->orderByDirection = $direction;
-        $this->orderByColumn = $column;
+        $this->orderByColumn = $orderByColumn;
+        $this->orderByDirection = $orderByDirection;
     }
 }
