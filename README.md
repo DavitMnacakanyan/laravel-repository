@@ -1,10 +1,10 @@
 # Laravel Repository
 
 Laravel Version Support
-- > `^5.5` `^6` `^7` `^8`
+- > `^5.5` `^6.0` `^7.0` `^8.0`
 
 Php Version Support
-- > `^7.0` `^8`
+- > `^7.0` `^8.0`
 
 [![Latest Stable Version](https://poser.pugx.org/jetbox/laravel-repository/v)](//packagist.org/packages/jetbox/laravel-repository)
 [![Total Downloads](https://poser.pugx.org/jetbox/laravel-repository/downloads)](//packagist.org/packages/jetbox/laravel-repository)
