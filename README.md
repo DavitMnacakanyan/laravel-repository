@@ -132,6 +132,9 @@ class UserRepository extends AbstractRepository
 ```php
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 use App\Repositories\UserRepository as UserR;
 
 class UserController extends BaseController {
@@ -151,7 +154,7 @@ class UserController extends BaseController {
     }
 
     /**
-    * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+    * @return Application|Factory|View
     */
     public function index()
     {
