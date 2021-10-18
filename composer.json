@@ -23,6 +23,11 @@
             "JetBox\\Repositories\\": "src"
         }
     },
+    "autoload-dev": {
+        "files": [
+            "src/Helpers/helpers.php"
+        ]
+    },
     "extra": {
         "laravel": {
             "providers": [

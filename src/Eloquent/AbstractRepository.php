@@ -3,7 +3,8 @@
 
 namespace JetBox\Repositories\Eloquent;
 
-
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\Query\Expression;
 use JetBox\Repositories\Contracts\RepositoryInterface;
 use JetBox\Repositories\Traits\BaseRepositoryTrait as BaseRepository;
 
@@ -15,6 +16,7 @@ abstract class AbstractRepository implements RepositoryInterface
      */
     use BaseRepository {
         baseOrderBy as private orderBy;
+        baseFindModel as private findModel;
     }
 
     /**
@@ -24,7 +26,7 @@ abstract class AbstractRepository implements RepositoryInterface
 
     /**
      * AbstractRepository constructor.
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     public function __construct()
     {
@@ -32,16 +34,15 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    abstract protected function model();
+    abstract protected function model(): string;
 
     /**
-     * @return $this
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     * //$this->model = new $this->model; || return new $this->model
+     * @return AbstractRepository
+     * @throws BindingResolutionException
      */
-    private function makeModel()
+    public function makeModel(): AbstractRepository
     {
         $model = app()->make($this->model());
 
@@ -201,7 +202,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param \Closure|string|array|Expression $column
      * @param null $value
      * @param string[] $columns
      * @return mixed
@@ -215,7 +216,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param \Closure|string|array|Expression $column
      * @param null $value
      * @param string[] $columns
      * @return mixed
@@ -229,7 +230,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @param \Closure|string|array|\Illuminate\Database\Query\Expression $column
+     * @param \Closure|string|array|Expression $column
      * @param null $value
      * @param string[] $columns
      * @return mixed
@@ -259,7 +260,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @param string|\Illuminate\Database\Query\Expression $column
+     * @param string|Expression $column
      * @param array $value
      * @param string[] $columns
      * @return mixed
@@ -328,58 +329,63 @@ abstract class AbstractRepository implements RepositoryInterface
 
     /**
      * @param array $attributes
-     * @param int $id
-     * @return bool
+     * @param int|object $model
+     * @param bool $tap
+     * @param bool $forceFill
+     * @return mixed
      */
-    public function update(array $attributes, int $id): bool
+    public function update(array $attributes, $model, bool $tap = false, bool $forceFill = false)
     {
-        return $this
-            ->baseUpdate($attributes, $id)
-            ->update();
+        $model = $this->findModel($model);
+
+        if ($tap)
+            $model = tap($model);
+        if ($forceFill)
+            $model->forceFill($attributes);
+        else
+            $model->fill($attributes);
+
+        return $model->update();
     }
 
     /**
      * @param array $attributes
-     * @param int $id
+     * @param int|object $model
+     * @param bool $tap
      * @return mixed
+     *
+     * forceFill
      */
-    public function updateTap(array $attributes, int $id)
+    public function updateForce(array $attributes, $model, bool $tap = false)
     {
-        return tap(
-            $this->baseUpdate($attributes, $id)
-        )->update();
+        return $this->update($attributes, $model, $tap, true);
     }
 
     /**
-     * @param array $attributes
-     * @param int $id
-     * @return bool
+     * @param int|object $model
+     * @param bool $tap
+     * @param bool $forceDelete
+     * @return mixed
      */
-    public function updateForce(array $attributes, int $id): bool
+    public function delete($model, bool $tap = false, bool $forceDelete = false)
     {
-        return $this
-            ->baseUpdateForce($attributes, $id)
-            ->update();
+        $model = $this->findModel($model);
+
+        if ($tap)
+            $model = tap($model);
+        if ($forceDelete)
+            return $model->forceDelete();
+
+        return $model->delete();
     }
 
     /**
-     * @param array $attributes
-     * @param int $id
+     * @param int|object $model
+     * @param bool $tap
      * @return mixed
      */
-    public function updateForceTap(array $attributes, int $id)
+    public function forceDelete($model, bool $tap = false)
     {
-        return tap(
-            $this->baseUpdateForce($attributes, $id)
-        )->update();
-    }
-
-    /**
-     * @param int $id
-     * @return mixed
-     */
-    public function delete(int $id)
-    {
-        return $this->find($id)->delete();
+        return $this->delete($model, $tap, true);
     }
 }

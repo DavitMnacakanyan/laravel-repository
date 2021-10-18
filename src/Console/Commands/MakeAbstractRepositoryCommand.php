@@ -17,7 +17,7 @@ class MakeAbstractRepositoryCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create a new Eloquent model repository class';
+    protected $description = 'Create a new Eloquent model abstract repository class';
 
     /**
      * @var string

@@ -14,23 +14,15 @@ trait BaseRepositoryTrait
     use SortableTrait;
 
     /**
-     * @param array $attributes
-     * @param int $id
+     * @param int|object $model
      * @return mixed
      */
-    private function baseUpdate(array $attributes, int $id)
+    private function baseFindModel($model)
     {
-        return $this->find($id)->fill($attributes);
-    }
+        if (is_int($model))
+            return $this->find($model);
 
-    /**
-     * @param array $attributes
-     * @param int $id
-     * @return mixed
-     */
-    private function baseUpdateForce(array $attributes, int $id)
-    {
-        return $this->find($id)->forceFill($attributes);
+        return $model;
     }
 
     /**

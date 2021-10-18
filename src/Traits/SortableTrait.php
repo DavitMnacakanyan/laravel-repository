@@ -20,7 +20,7 @@ trait SortableTrait
      * @param string $orderByColumn
      * @param string $orderByDirection
      */
-    public function querySortable(string $orderByColumn, string $orderByDirection)
+    public function querySortable(string $orderByColumn, string $orderByDirection): void
     {
         $this->orderByColumn = $orderByColumn;
         $this->orderByDirection = $orderByDirection;

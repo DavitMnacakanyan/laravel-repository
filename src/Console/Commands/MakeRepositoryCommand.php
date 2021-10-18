@@ -97,7 +97,7 @@ class MakeRepositoryCommand extends GeneratorCommand
 
         if ($checkCommandRepository === 'Repository') {
 //            $modelNamespace = $this->qualifyModel($nameInput);
-            $modelNamespace = config('repository.app_model') . '\\' . $nameInput;
+            $modelNamespace = config('repository.path') . '\\' . $nameInput;
             $modelNamespace = substr($modelNamespace, 0, strpos($modelNamespace, 'Repository'));
             $nameInput = substr($nameInput, 0, strpos($nameInput, 'Repository'));
             $nameInput = Str::singular($nameInput);

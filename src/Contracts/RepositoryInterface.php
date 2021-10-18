@@ -4,7 +4,6 @@
 namespace JetBox\Repositories\Contracts;
 
 
-
 interface RepositoryInterface
 {
     /**
@@ -167,35 +166,33 @@ interface RepositoryInterface
 
     /**
      * @param array $attributes
-     * @param int $id
+     * @param int|object $model
+     * @param bool $tap
+     * @param bool $forceFill
      * @return mixed
      */
-    public function update(array $attributes, int $id): bool;
+    public function update(array $attributes, $model, bool $tap = false, bool $forceFill = false);
 
     /**
      * @param array $attributes
-     * @param int $id
+     * @param int|object $model
+     * @param bool $tap
      * @return mixed
      */
-    public function updateTap(array $attributes, int $id);
+    public function updateForce(array $attributes, $model, bool $tap = false);
 
     /**
-     * @param array $attributes
-     * @param int $id
-     * @return bool
-     */
-    public function updateForce(array $attributes, int $id): bool;
-
-    /**
-     * @param array $attributes
-     * @param int $id
+     * @param int|object $model
+     * @param bool $tap
+     * @param bool $forceDelete
      * @return mixed
      */
-    public function updateForceTap(array $attributes, int $id);
+    public function delete($model, bool $tap = false, bool $forceDelete = false);
 
     /**
-     * @param int $id
+     * @param int|object $model
+     * @param bool $tap
      * @return mixed
      */
-    public function delete(int $id);
+    public function forceDelete($model, bool $tap = false);
 }

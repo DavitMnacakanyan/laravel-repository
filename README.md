@@ -60,19 +60,39 @@ php artisan make:repository UserRepository
 ### JetBox\Repositories\Contracts\RepositoryInterface
 
 - get($columns = ['*'], $take = false, $pagination = false, $where = false);
-- all($columns = ['*'], $orderBy = 'created_at');
-- take($take, $columns = ['*'], $orderBy = 'created_at');
-- paginate($perPage = false, $columns = ['*'], $orderBy = 'created_at');
-- simplePaginate($perPage = false, $columns = ['*'], $orderBy = 'created_at');
-- limit($take, $columns = ['*'], $orderBy = 'created_at');
+- all($columns = ['*']);
+- take($take, $columns = ['*']);
+- paginate($perPage = false, $columns = ['*']);
+- withPaginate($relations, $columns = ['*'], $paginate = 15);
+- simplePaginate($perPage = false, $columns = ['*']);
+- limit($take, $columns = ['*']);
 - find($id, $columns = ['*']);
+- findMany($ids, $columns = ['*']);
+- findOrFail($id, $columns = ['*']);
 - first($columns = ['*']);
+- firstOrFail($columns = ['*']);
 - where($column, $value = null, $columns = ['*']);
-- whereAll($column, $value = null, $columns = ['*'], $orderBy = 'created_at');
-- whereBetween($column, $value = [], $columns = ['*'], $orderBy = 'created_at');
-- with($relations, $columns = ['*'], $orderBy = 'created_at');
-- withCount($relations, $columns = ['*'], $orderBy = 'created_at');
+- whereOrFail($column, $value = null, $columns = ['*']);
+- whereAll($column, $value = null, $columns = ['*']);
+- whereWithAll($column, $value = null, $relations, $columns = ['*']);
+- whereBetween($column, $value = [], $columns = ['*']);
+- with($relations, $columns = ['*']);
+- withCount($relations, $columns = ['*']);
+- pluck($column, $key = null);
+- create(array $attributes);
+- forceCreate(array $attributes);
+- update(array $attributes, $model, bool $tap = false, bool $forceFill = false);
+- updateForce(array $attributes, $model, bool $tap = false);
+- delete($model, bool $tap = false, bool $forceDelete = false);
+- forceDelete($model, bool $tap = false);
 - querySortable(string $orderByColumn, string $orderByDirection)
+
+## Helpers
+- lLog(string $message, string $log = 'info', array $context = [], string $disk = null)
+- is_json(string $str, bool $returnData = false)
+- currentUser(): ?Authenticatable
+- getWebsiteName(): string
+- getWebsiteUrl(): string
 
 ## Usage
 
@@ -98,9 +118,9 @@ class UserRepository extends AbstractRepository
    public $orderByDirection = 'desc';
 
    /**
-    * @return mixed|string
+    * @return string
     */
-   protected function model()
+   protected function model(): string
    {
        return User::class;
    }
