@@ -31,11 +31,11 @@ trait BaseRepositoryTrait
     private function baseOrderBy()
     {
         if ($this->orderByDirection === 'desc') {
-            return $this->model->latest($this->orderByColumn);
+            return $this->newModel()->latest($this->orderByColumn);
         }
 
         if ($this->orderByDirection === 'asc') {
-            return $this->model->oldest($this->orderByColumn);
+            return $this->newModel()->oldest($this->orderByColumn);
         }
 
         throw RepositoryException::orderByDirection($this);

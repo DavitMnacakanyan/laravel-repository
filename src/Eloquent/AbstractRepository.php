@@ -3,11 +3,13 @@
 
 namespace JetBox\Repositories\Eloquent;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Closure;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Query\Expression;
+use Illuminate\Support\Str;
 use JetBox\Repositories\Contracts\RepositoryInterface;
 use JetBox\Repositories\Traits\BaseRepositoryTrait as BaseRepository;
-
+use Exception;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
@@ -20,35 +22,62 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @var bool
+     * @var string
      */
-    public $model = false;
+    protected $model;
 
     /**
-     * AbstractRepository constructor.
-     * @throws BindingResolutionException
+     * @var callable
      */
-    public function __construct()
-    {
-        $this->makeModel();
-    }
+    protected static $modelNameResolver;
 
     /**
      * @return string
      */
-    abstract protected function model(): string;
+    protected static function getNamespace(): string
+    {
+        try {
+            return app(Application::class)->getNamespace();
+        } catch (Exception $exception) {
+            return 'App\\';
+        }
+    }
 
     /**
-     * @return AbstractRepository
-     * @throws BindingResolutionException
+     * @return mixed
      */
-    public function makeModel(): AbstractRepository
+    public function newModel()
     {
-        $model = app()->make($this->model());
+        $model = $this->modelName();
 
-        $this->model = $model;
+        return new $model;
+    }
 
-        return $this;
+    /**
+     * @return bool|Closure|mixed
+     */
+    public function modelName()
+    {
+        $resolver = static::$modelNameResolver ?: function (self $model) {
+
+            $modelBaseName = Str::replaceLast('Repository', '', class_basename($model));
+
+            $appNamespace = static::getNamespace();
+
+            return class_exists($appNamespace.'Models\\'.$modelBaseName)
+                   ? $appNamespace.'Models\\'.$modelBaseName
+                   : $appNamespace.$modelBaseName;
+        };
+
+        return $this->model ?: $resolver($this);
+    }
+
+    /**
+     * @param callable $resolver
+     */
+    public static function modelNameResolver(callable $resolver)
+    {
+        static::$modelNameResolver = $resolver;
     }
 
     /**
@@ -202,7 +231,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @param \Closure|string|array|Expression $column
+     * @param Closure|string|array|Expression $column
      * @param null $value
      * @param string[] $columns
      * @return mixed
@@ -216,7 +245,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @param \Closure|string|array|Expression $column
+     * @param Closure|string|array|Expression $column
      * @param null $value
      * @param string[] $columns
      * @return mixed
@@ -230,7 +259,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * @param \Closure|string|array|Expression $column
+     * @param Closure|string|array|Expression $column
      * @param null $value
      * @param string[] $columns
      * @return mixed

@@ -4,7 +4,6 @@ namespace DummyNamespace;
 
 use JetBox\Repositories\Eloquent\AbstractRepository as BaseRepository;
 
-
 abstract class AbstractRepository extends BaseRepository
 {
 

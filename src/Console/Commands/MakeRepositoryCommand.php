@@ -2,12 +2,12 @@
 
 namespace JetBox\Repositories\Console\Commands;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use JetBox\Repositories\Eloquent\AbstractRepository;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
-
 
 class MakeRepositoryCommand extends GeneratorCommand
 {
@@ -52,7 +52,7 @@ class MakeRepositoryCommand extends GeneratorCommand
      * @param string $rootNamespace
      * @return string
      */
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $this->namespace;
     }
@@ -60,64 +60,64 @@ class MakeRepositoryCommand extends GeneratorCommand
     /**
      * @return string
      */
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/../../../stubs/repository.stub';
     }
 
     /**
      * @param string $name
-     * @return mixed|string|string[]
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @return string|string[]
+     * @throws FileNotFoundException
      */
     protected function buildClass($name)
     {
         $stub = parent::buildClass($name);
 
+        $this->makeAbstractRepository();
+
+        return $this->checkRepositoryName($stub);
+    }
+
+    /**
+     * @param $stub
+     * @return array|string|string[]|void
+     */
+    protected function checkRepositoryName($stub)
+    {
+        $repository = Str::endsWith($this->getNameInput(), $this->type);
+
+        if ($repository) {
+            //            $modelNamespace = $this->qualifyModel($modelName);
+            $modelName = Str::replaceLast($this->type, '', $this->getNameInput());
+            $modelName = Str::singular($modelName);
+            $modelNamespace = config('repository.path') . '\\' . $modelName;
+
+            $stub = str_replace('DummyModelNamespace', $modelNamespace, $stub);
+            $stub = str_replace('DummyModelClass', $modelName, $stub);
+
+            return $stub;
+        }
+
+        $this->error('Error Repository must finish the name of the Repository Example {Model}{Repository}');
+    }
+
+    /**
+     * @return void
+     */
+    protected function makeAbstractRepository(): void
+    {
         if (!file_exists(app_path('Repositories/AbstractRepository.php'))) {
             $this->call('make:abstract-repository', [
                 'name' => 'AbstractRepository'
             ]);
         }
-
-//        $stub = str_replace('AbstractRepositoryNamespace', $this->abstractNamespace, $stub);
-
-        return $this->checkCommand($stub);
-    }
-
-    /**
-     * @param $stub
-     * @return mixed|string|string[]
-     */
-    protected function checkCommand($stub)
-    {
-        // Command Line make:repository UserRepository
-        $nameInput = $this->getNameInput();
-        $checkCommandRepository = substr($nameInput, strpos($nameInput, 'Repository'));
-
-        if ($checkCommandRepository === 'Repository') {
-//            $modelNamespace = $this->qualifyModel($nameInput);
-            $modelNamespace = config('repository.path') . '\\' . $nameInput;
-            $modelNamespace = substr($modelNamespace, 0, strpos($modelNamespace, 'Repository'));
-            $nameInput = substr($nameInput, 0, strpos($nameInput, 'Repository'));
-            $nameInput = Str::singular($nameInput);
-            $modelNamespace = Str::singular($modelNamespace);
-
-            $stub = str_replace('DummyModelNamespace', $modelNamespace, $stub);
-            $stub = str_replace('DummyModelClass', $nameInput, $stub);
-
-            return $stub;
-        }
-
-        $this->error('Error');
-
-        return false;
     }
 
     /**
      * @return array[]
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the repository class'],

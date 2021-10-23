@@ -3,10 +3,16 @@
 namespace JetBox\Repositories\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 
 class MakeAbstractRepositoryCommand extends GeneratorCommand
 {
+    /**
+     * @var bool
+     */
+    protected $hidden = true;
+
     /**
      * @var string
      */
@@ -43,7 +49,7 @@ class MakeAbstractRepositoryCommand extends GeneratorCommand
      * @param string $rootNamespace
      * @return string
      */
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $this->namespace;
     }
@@ -51,17 +57,17 @@ class MakeAbstractRepositoryCommand extends GeneratorCommand
     /**
      * @return string
      */
-    protected function getStub()
+    protected function getStub(): string
     {
         return __DIR__ . '/../../../stubs/abstract-repository.stub';
     }
 
     /**
      * @param string $name
-     * @return mixed|string|string[]
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @return string
+     * @throws FileNotFoundException
      */
-    protected function buildClass($name)
+    protected function buildClass($name): string
     {
         return parent::buildClass($name);
     }

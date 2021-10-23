@@ -5,6 +5,7 @@ namespace JetBox\Repositories;
 use JetBox\Repositories\Console\Commands\MakeAbstractRepositoryCommand;
 use JetBox\Repositories\Console\Commands\MakeRepositoryCommand;
 use Illuminate\Support\ServiceProvider;
+use JetBox\Repositories\Console\Commands\RepositoryInstallCommand;
 
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -36,6 +37,7 @@ class RepositoryServiceProvider extends ServiceProvider
             $this->commands([
                 MakeAbstractRepositoryCommand::class,
                 MakeRepositoryCommand::class,
+                RepositoryInstallCommand::class
             ]);
         }
     }

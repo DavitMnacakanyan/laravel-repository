@@ -1,9 +1,11 @@
 # Laravel Repository
 
 Laravel Version Support
+
 - > `^5.5` `^6.0` `^7.0` `^8.0`
 
 Php Version Support
+
 - > `^7.0` `^8.0`
 
 [![Latest Stable Version](https://poser.pugx.org/jetbox/laravel-repository/v)](//packagist.org/packages/jetbox/laravel-repository)
@@ -32,25 +34,18 @@ Php Version Support
 ## Installation
 
 ### Composer
-
 Execute the following command to get the latest version of the package:
-
 ```terminal
 composer require jetbox/laravel-repository
 ```
 
-### Config
-
-Publish Config
-
+### Repository Install
 ```terminal
-php artisan vendor:publish --provider="JetBox\Repositories\RepositoryServiceProvider"
+php artisan repository:install
 ```
 
-### Command
-
+### Create Repository
 Create a new Eloquent model repository class
-
 ```terminal
 php artisan make:repository UserRepository
 ```
@@ -88,6 +83,7 @@ php artisan make:repository UserRepository
 - querySortable(string $orderByColumn, string $orderByDirection)
 
 ## Helpers
+
 - lLog(string $message, string $log = 'info', array $context = [], string $disk = null)
 - is_json(string $str, bool $returnData = false)
 - currentUser(): ?Authenticatable
@@ -98,6 +94,22 @@ php artisan make:repository UserRepository
 
 ### Create a Repository
 
+> #### Recommended This Shorter
+> Laravel `^5.7` `^6.0` `^7.0` `^8.0`
+> if your model is not linked to the  repository auto, you can override the `$model` property of your repository
+
+```php
+namespace App\Repositories;
+
+class UserRepository extends AbstractRepository
+{
+
+}
+```
+
+### Or
+> Laravel `^5.2` `<=5.6` override the `$model` property
+
 ```php
 namespace App\Repositories;
 
@@ -105,6 +117,11 @@ use App\Models\User;
 
 class UserRepository extends AbstractRepository
 {
+    /**
+     * @var string
+     */
+    protected $model = User::class;
+
    /**
     * Global OrderBy Column
     * @var string
@@ -116,14 +133,6 @@ class UserRepository extends AbstractRepository
     * @var string
     */
    public $orderByDirection = 'desc';
-
-   /**
-    * @return string
-    */
-   protected function model(): string
-   {
-       return User::class;
-   }
 }
 ```
 
