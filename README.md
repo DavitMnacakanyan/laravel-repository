@@ -106,6 +106,24 @@ use JetBox\Repositories\Traits\EnvironmentTrait
 - JetBoxFile::delete(Model $model, string $field, string $path)
 - JetBoxFile::numberFormatSizeUnits(int $sizeInBytes)
 
+## Constants
+- AppConstants::permissions(): array
+- AppConstants::roles(): array
+- AppConstants::status(): array
+```php
+namespace App\Constants;
+
+use JetBox\Repositories\Constants\AppConstants as BaseAppConstants;
+
+final class AppConstants extends BaseAppConstants
+{
+    const ROLE_VISITOR = 'visitor';
+    const ROLE_EDITOR = 'editor';
+
+    const PERMISSION_VIEW_BLOG = 'view_blog';
+}
+```
+
 ## Usage
 
 ### Create a Repository
