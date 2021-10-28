@@ -34,18 +34,23 @@ Php Version Support
 ## Installation
 
 ### Composer
+
 Execute the following command to get the latest version of the package:
+
 ```terminal
 composer require jetbox/laravel-repository
 ```
 
 ### Repository Install
+
 ```terminal
 php artisan repository:install
 ```
 
 ### Create Repository
+
 Create a new Eloquent model repository class
+
 ```terminal
 php artisan make:repository UserRepository
 ```
@@ -87,8 +92,19 @@ php artisan make:repository UserRepository
 - lLog(string $message, string $log = 'info', array $context = [], string $disk = null)
 - is_json(string $str, bool $returnData = false)
 - currentUser(): ?Authenticatable
-- getWebsiteName(): string
-- getWebsiteUrl(): string
+- numberFormatShort($n, int $precision = 2)
+
+## EnvironmentTrait
+```php 
+use JetBox\Repositories\Traits\EnvironmentTrait
+```
+- changeEnvironmentVariable(string $key, $value): void
+- environmentVariableAllUpdate(array $data): void
+
+## File Facade
+- JetBoxFile::save(string $path, object $file, string $fileName = null, array $options = [])
+- JetBoxFile::delete(Model $model, string $field, string $path)
+- JetBoxFile::numberFormatSizeUnits(int $sizeInBytes)
 
 ## Usage
 
@@ -108,6 +124,7 @@ class UserRepository extends AbstractRepository
 ```
 
 ### Or
+
 > Laravel `^5.2` `<=5.6` override the `$model` property
 
 ```php
@@ -117,10 +134,10 @@ use App\Models\User;
 
 class UserRepository extends AbstractRepository
 {
-    /**
-     * @var string
-     */
-    protected $model = User::class;
+   /**
+    * @var string
+    */
+   protected $model = User::class;
 
    /**
     * Global OrderBy Column

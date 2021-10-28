@@ -1,8 +1,6 @@
 <?php
 
-
 namespace JetBox\Repositories\Contracts;
-
 
 interface RepositoryInterface
 {
@@ -10,10 +8,10 @@ interface RepositoryInterface
      * @param string[] $columns
      * @param false $take
      * @param false $pagination
-     * @param false $where
+     * @param array $where
      * @return mixed
      */
-    public function get($columns = ['*'], $take = false, $pagination = false, $where = false);
+    public function get($columns = ['*'], $take = false, $pagination = false, array $where = []);
 
     /**
      * @param string[] $columns
@@ -116,12 +114,12 @@ interface RepositoryInterface
 
     /**
      * @param $column
-     * @param null $value
      * @param $relations
+     * @param null $value
      * @param string[] $columns
      * @return mixed
      */
-    public function whereWithAll($column, $value = null, $relations, $columns = ['*']);
+    public function whereWithAll($column, $relations, $value = null, $columns = ['*']);
 
     /**
      * @param $column

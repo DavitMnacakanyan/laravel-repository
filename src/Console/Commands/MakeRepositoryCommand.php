@@ -26,17 +26,7 @@ class MakeRepositoryCommand extends GeneratorCommand
     /**
      * @var string
      */
-    protected $namespace = 'App\\Repositories';
-
-    /**
-     * @var string
-     */
     protected $type = 'Repository';
-
-    /**
-     * @var string
-     */
-    protected $abstractNamespace = AbstractRepository::class;
 
     /**
      * Create a new command instance.
@@ -54,7 +44,7 @@ class MakeRepositoryCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $this->namespace;
+        return config('repository.repository_namespace');
     }
 
     /**
@@ -85,13 +75,12 @@ class MakeRepositoryCommand extends GeneratorCommand
      */
     protected function checkRepositoryName($stub)
     {
-        $repository = Str::endsWith($this->getNameInput(), $this->type);
+        $repository = substr($this->getNameInput(), -strlen($this->type));
 
         if ($repository) {
-            //            $modelNamespace = $this->qualifyModel($modelName);
-            $modelName = Str::replaceLast($this->type, '', $this->getNameInput());
+            $modelName = substr($this->getNameInput(), 0, -strlen($this->type));
             $modelName = Str::singular($modelName);
-            $modelNamespace = config('repository.path') . '\\' . $modelName;
+            $modelNamespace = config('repository.model_namespace') . '\\' . $modelName;
 
             $stub = str_replace('DummyModelNamespace', $modelNamespace, $stub);
             $stub = str_replace('DummyModelClass', $modelName, $stub);
@@ -107,7 +96,12 @@ class MakeRepositoryCommand extends GeneratorCommand
      */
     protected function makeAbstractRepository(): void
     {
-        if (!file_exists(app_path('Repositories/AbstractRepository.php'))) {
+        $str = config('repository.repository_namespace');
+        $str = str_replace('A', 'a', $str);
+        $str = base_path("$str/AbstractRepository.php");
+        $str = str_replace('\\', '/', $str);
+
+        if (!file_exists($str)) {
             $this->call('make:abstract-repository', [
                 'name' => 'AbstractRepository'
             ]);

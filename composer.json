@@ -32,7 +32,10 @@
         "laravel": {
             "providers": [
                 "JetBox\\Repositories\\RepositoryServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "JetBoxFile": "JetBox\\Repositories\\Support\\Facades\\JetBoxFile"
+            }
         }
     }
 }

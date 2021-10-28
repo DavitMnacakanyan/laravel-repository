@@ -28,11 +28,6 @@ class MakeAbstractRepositoryCommand extends GeneratorCommand
     /**
      * @var string
      */
-    protected $namespace = 'App\\Repositories';
-
-    /**
-     * @var string
-     */
     protected $type = 'AbstractRepository';
 
     /**
@@ -51,7 +46,7 @@ class MakeAbstractRepositoryCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $this->namespace;
+        return config('repository.repository_namespace');
     }
 
     /**

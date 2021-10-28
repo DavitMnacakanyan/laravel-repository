@@ -8,19 +8,11 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Str;
 use JetBox\Repositories\Contracts\RepositoryInterface;
-use JetBox\Repositories\Traits\BaseRepositoryTrait as BaseRepository;
+use JetBox\Repositories\Exceptions\RepositoryException;
 use Exception;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
-    /**
-     * Trait
-     */
-    use BaseRepository {
-        baseOrderBy as private orderBy;
-        baseFindModel as private findModel;
-    }
-
     /**
      * @var string
      */
@@ -30,6 +22,18 @@ abstract class AbstractRepository implements RepositoryInterface
      * @var callable
      */
     protected static $modelNameResolver;
+
+    /**
+     * Global OrderBy Column
+     * @var string
+     */
+    public $orderByColumn = 'created_at';
+
+    /**
+     * Global OrderBy Direction
+     * @var string
+     */
+    public $orderByDirection = 'desc';
 
     /**
      * @return string
@@ -81,13 +85,52 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
+     * @param string $orderByColumn
+     * @param string $orderByDirection
+     */
+    public function querySortable(string $orderByColumn, string $orderByDirection): void
+    {
+        $this->orderByColumn = $orderByColumn;
+        $this->orderByDirection = $orderByDirection;
+    }
+
+    /**
+     * @return mixed
+     * @throws RepositoryException
+     */
+    private function orderBy()
+    {
+        if ($this->orderByDirection === 'desc') {
+            return $this->newModel()->latest($this->orderByColumn);
+        }
+
+        if ($this->orderByDirection === 'asc') {
+            return $this->newModel()->oldest($this->orderByColumn);
+        }
+
+        throw RepositoryException::orderByDirection($this);
+    }
+
+    /**
+     * @param int|object $model
+     * @return mixed
+     */
+    private function findModel($model)
+    {
+        if (is_int($model))
+            return $this->find($model);
+
+        return $model;
+    }
+
+    /**
      * @param string[] $columns
      * @param false $take
      * @param false $pagination
-     * @param false $where
+     * @param array $where
      * @return mixed
      */
-    public function get($columns = ['*'], $take = false, $pagination = false, $where = false)
+    public function get($columns = ['*'], $take = false, $pagination = false, array $where = [])
     {
         $builder = $this->orderBy();
 
@@ -100,7 +143,7 @@ abstract class AbstractRepository implements RepositoryInterface
         }
 
         if ($where) {
-            $builder->where($where[0], $where[1]);
+            $builder->where($where);
         }
 
         return $builder->get($columns);
@@ -274,12 +317,12 @@ abstract class AbstractRepository implements RepositoryInterface
 
     /**
      * @param $column
-     * @param null $value
      * @param $relations
+     * @param null $value
      * @param string[] $columns
      * @return mixed
      */
-    public function whereWithAll($column, $value = null, $relations, $columns = ['*'])
+    public function whereWithAll($column, $relations, $value = null, $columns = ['*'])
     {
         return $this
             ->orderBy()

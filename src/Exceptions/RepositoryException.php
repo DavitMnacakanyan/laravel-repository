@@ -2,14 +2,13 @@
 
 namespace JetBox\Repositories\Exceptions;
 
-
 final class RepositoryException extends BaseException
 {
     /**
      * @param object $object
-     * @return RepositoryException
+     * @return self
      */
-    public static function orderByDirection(object $object): RepositoryException
+    public static function orderByDirection(object $object): self
     {
         $className = get_class($object);
 
