@@ -460,4 +460,18 @@ abstract class AbstractRepository implements RepositoryInterface
     {
         return $this->delete($model, $tap, true);
     }
+
+    /**
+     * @param array $attribute
+     * @param bool $tap
+     * @return mixed
+     */
+    public function save(array $attribute = [], bool $tap = false)
+    {
+        $model = $this->newModel()->fill($attribute);
+
+        if ($tap) $model = tap($model);
+
+        return $model->save();
+    }
 }

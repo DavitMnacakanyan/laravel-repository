@@ -193,4 +193,11 @@ interface RepositoryInterface
      * @return mixed
      */
     public function forceDelete($model, bool $tap = false);
+
+    /**
+     * @param array $attribute
+     * @param bool $tap
+     * @return mixed
+     */
+    public function save(array $attribute = [], bool $tap = false);
 }
