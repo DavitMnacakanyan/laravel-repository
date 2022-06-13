@@ -15,7 +15,8 @@ class FileService implements FileContract
     public function save(string $path, object $file, string $fileName = null, string $disk = 'public', array $options = []): string
     {
         $name = $fileName ?: $this->hashName($file);
-        return Storage::disk($disk)->putFileAs($path, $file, $name, $options);
+        Storage::disk($disk)->putFileAs($path, $file, $name, $options);
+        return $name;
     }
 
     /**
