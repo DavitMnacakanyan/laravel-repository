@@ -103,6 +103,13 @@ use JetBox\Repositories\Traits\EnvironmentTrait
 - changeEnvironmentVariable(string $key, $value): void
 - environmentVariableAllUpdate(array $data): void
 
+## Translatable
+```php 
+use JetBox\Repositories\Traits\Translatable
+```
+- withTranslations(Builder $query, $locales = null, $fallback = true): void
+- getTranslated($attribute, $locale = null, $fallback = true)
+
 ## File Facade
 - JetBoxFile::save(string $path, object $file, string $fileName = null, array $options = [])
 - JetBoxFile::delete(Model $model, string $field, string $path)
