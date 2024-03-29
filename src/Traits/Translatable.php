@@ -54,7 +54,7 @@ trait Translatable
 
         $localeTranslation = $translations->where('locale', $locale)->first();
 
-        if ($localeTranslation) {
+        if ($localeTranslation && $localeTranslation->value) {
             return $localeTranslation->value;
         }
 
