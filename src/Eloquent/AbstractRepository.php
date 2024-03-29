@@ -98,7 +98,7 @@ abstract class AbstractRepository implements RepositoryInterface
      * @return mixed
      * @throws RepositoryException
      */
-    private function orderBy()
+    public function orderBy()
     {
         if ($this->orderByDirection === 'desc') {
             return $this->newModel()->latest($this->orderByColumn);
